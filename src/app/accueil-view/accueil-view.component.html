@@ -1,0 +1,25 @@
+<div id="selection">
+  <div id="lancerPartie">
+    <h2>Nouvelle partie</h2>
+    <button (click)="human()">1 vs 1</button>
+    <button onclick="ia">1 vs IA</button>
+  </div>
+  <div id="rejoindrePartie">
+    <h2>Rejoindre une partie existante</h2>
+    <input type="number" id="idPartie" min="1000" max="9999">
+    <button (click)="getPartie()">Rejoindre</button>
+  </div>
+</div>
+<div id="waitingId" hidden="true">
+  <h2>id partie</h2>
+  <label id="idPartieAttente">0000</label>
+</div>
+<div id="turn" hidden="true">C'est ton tour !</div>
+<div class="boardGame-container" id="boardContainer" hidden="true">
+  <div class="board" id="boardGame"></div>
+</div>
+<script src="../lib/jQuery.js"></script>
+<script src="OTPProtocol.js"></script>
+<script src="Serveur.js"></script>
+<script src="Accueil.js"></script>
+<script src="boardGame.js"></script>

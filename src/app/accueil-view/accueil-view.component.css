@@ -1,0 +1,37 @@
+html, body {
+  margin: 5px;
+  padding: 0;
+  background: #E2E2E2;
+}
+
+h1,h2,p{
+  text-align: center;
+  color: #303030;
+}
+
+#lancerPartie, #rejoindrePartie{
+  margin: 40px;
+  text-align: center;
+}
+
+button{
+  background-color: #75B9BE;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  margin: 40px;
+}
+
+input{
+  background-color: #C6C6C6;
+  margin: 40px;
+  border-radius: 4px;
+  height: 30px;
+}
+
+#idPartieAttente {
+  display: block;
+  font-size: 40px;
+  color: #75B9BE;
+  text-align: center;
+}
