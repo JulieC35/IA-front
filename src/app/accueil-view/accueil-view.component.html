@@ -6,20 +6,14 @@
   </div>
   <div id="rejoindrePartie">
     <h2>Rejoindre une partie existante</h2>
-    <input type="number" id="idPartie" min="1000" max="9999">
+    <input type="number" [(ngModel)]="idPartie" min="1000" max="9999">
+    <label>{{idPartie}}</label>
     <button (click)="getPartie()">Rejoindre</button>
   </div>
 </div>
-<div id="waitingId" hidden="true">
-  <h2>id partie</h2>
-  <label id="idPartieAttente">0000</label>
-</div>
+
+<!-- Mettre dans une autre page -->
 <div id="turn" hidden="true">C'est ton tour !</div>
 <div class="boardGame-container" id="boardContainer" hidden="true">
   <div class="board" id="boardGame"></div>
 </div>
-<script src="../lib/jQuery.js"></script>
-<script src="OTPProtocol.js"></script>
-<script src="Serveur.js"></script>
-<script src="Accueil.js"></script>
-<script src="boardGame.js"></script>

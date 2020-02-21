@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 
 @Component({
@@ -8,7 +8,9 @@ import {ServeurService} from '../services/serveur.service';
 })
 export class AccueilViewComponent implements OnInit {
 
+  @Input() idPartie: number;
   private id: number;
+  private url = 'ws://localhost:8989/room/';
 
   constructor(private serveurService: ServeurService) {
   }
@@ -18,11 +20,21 @@ export class AccueilViewComponent implements OnInit {
 
 
   human() {
+    this.id = this.randomIntFromInterval(1000, 9999);
+    const urlH = this.url + this.id;
+    this.serveurService = this.serveurService.init(urlH);
     console.log(this.serveurService.socket);
   }
 
   getPartie() {
+    const urlR = this.url + this.idPartie;
+    console.log(urlR);
+    this.serveurService = this.serveurService.init(urlR);
     console.log(this.serveurService.socket);
+  }
+
+  randomIntFromInterval(min, max) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
 }
