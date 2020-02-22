@@ -8,16 +8,19 @@ import { ServeurService } from './services/serveur.service';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import { WaitGameComponent } from './wait-game/wait-game.component';
+import { GameBoardComponent } from './game-board/game-board.component';
 const appRoutes: Routes = [
   {path: '', component: AccueilViewComponent},
-  {path: 'waitGame', component: WaitGameComponent}
+  {path: 'waitGame/:idPartie', component: WaitGameComponent},
+  {path: 'gameBoard/:idPartie', component: GameBoardComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     AccueilViewComponent,
-    WaitGameComponent
+    WaitGameComponent,
+    GameBoardComponent
   ],
   imports: [
     BrowserModule,

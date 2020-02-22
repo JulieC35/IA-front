@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-accueil-view',
@@ -12,7 +13,7 @@ export class AccueilViewComponent implements OnInit {
   private id: number;
   private url = 'ws://localhost:8989/room/';
 
-  constructor(private serveurService: ServeurService) {
+  constructor(private serveurService: ServeurService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -24,6 +25,7 @@ export class AccueilViewComponent implements OnInit {
     const urlH = this.url + this.id;
     this.serveurService = this.serveurService.init(urlH);
     console.log(this.serveurService.socket);
+    this.router.navigate(['waitGame/' + this.id]);
   }
 
   getPartie() {
