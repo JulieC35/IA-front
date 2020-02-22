@@ -1,0 +1,332 @@
+
+body
+{
+  margin: 0;
+  padding: 0;
+  /*display: flex;*/
+  justify-content: center;
+  align-items: center;
+}
+
+.boardGame-container
+{
+  /*display: flex;*/
+  justify-content: center;
+  align-items: center;
+}
+
+.board
+{
+  margin: 50px 0;
+  width: 600px;
+  height: 600px;
+  background: #daa432;
+  position: relative;
+  display: flex;
+}
+
+.board-coord-bar
+{
+  margin-right: 6px;
+  padding: 20px 0 25px;
+  box-sizing: border-box;
+  height: 600px;
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.board-coord-bar.horizontal
+{
+  flex-direction: row;
+  position: absolute;
+  top: -30px;
+  left: 0;
+  margin-right: 0;
+  width: 600px;
+  height: 30px;
+  padding: 0 25px 0 20px;
+}
+.board-coord-bar:last-child
+{
+  margin-right: 0;
+  margin-left: 6px;
+}
+.board-coord-bar.horizontal:last-child
+{
+  bottom: -30px;
+  top: auto;
+}
+.board-coord
+{
+  color: #daa432;
+}
+.board-coord-bar.horizontal .board-coord
+{
+  color: black;
+}
+
+/* ------------------ */
+/* -- Layers -------- */
+/* ------------------ */
+.board-layer
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  padding: 25px 20px 20px 30px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+.board-layer.fldc
+{
+  flex-direction: column;
+  left: -6px;
+  top: 6px;
+}
+.board-layer.color
+{
+  z-index: 0;
+}
+.board-layer.stone
+{
+  z-index: 3;
+}
+
+/* -------------------- */
+/* -- Columns Layers -- */
+/* -------------------- */
+.board-column
+{
+  display: flex;
+  flex-direction: column;
+  margin-right: 48px;
+}
+.board-column:nth-child(2n)
+{
+  margin-top: 12px;
+}
+.board-verticalLine
+{
+  width: 1px;
+  height: 50px;
+  background: black;
+  margin-bottom: -1px;
+  flex-shrink: 0;
+}
+.board-verticalLine:nth-child(2n)
+{
+  transform: rotate(15deg);
+}
+.board-verticalLine:nth-child(2n+1)
+{
+  transform: rotate(-15deg);
+}
+
+/* -------------------- */
+/* -- Rows Layers ----- */
+/* -------------------- */
+.board-row
+{
+  display: flex;
+  margin-bottom: 48px;
+}
+.board-row:nth-child(2n)
+{
+  margin-left: 12px;
+}
+.board-horizonalLine
+{
+  width: 50px;
+  height: 1px;
+  background: black;
+  margin-right: -1px;
+  flex-shrink: 0;
+}
+.board-horizonalLine:nth-child(2n)
+{
+  transform: rotate(-15deg);
+}
+.board-horizonalLine:nth-child(2n+1)
+{
+  transform: rotate(15deg);
+}
+
+/* -------------------------- */
+/* -- Diamond center layer -- */
+/* -------------------------- */
+.board-diamondCenter-row
+{
+  display: flex;
+  margin-bottom: 48px;
+  margin-left: 55px;
+}
+.board-diamondCenter-row.first
+{
+  margin-bottom: 25px;
+  margin-left: 0;
+}
+.board-diamondCenter-row:nth-child(2n)
+{
+  margin-left: 6px;
+}
+.board-diamondCenter-line
+{
+  width: 50px;
+  height: 1px;
+  background: black;
+  transform: rotate(-45deg);
+  margin-right: 48px;
+  flex-shrink: 0;
+}
+.board-diamondCenter-row:nth-child(2n+1) .board-diamondCenter-line
+{
+  width: 51px;
+  margin-right: 47px;
+  transform: rotate(46deg);
+}
+
+
+/* ------------------------- */
+/* -- Square center layer -- */
+/* ------------------------- */
+.board-squareCenter-row
+{
+  display: flex;
+  margin-top: 25px;
+  margin-left: 45px;
+  margin-bottom: 23px;
+}
+.board-squareCenter-row:nth-child(2n)
+{
+  margin-left: -3px;
+  margin-bottom: 23px;
+}
+.board-squareCenter-line
+{
+  width: 70px;
+  height: 1px;
+  background: black;
+  transform: rotate(30deg);
+  flex-shrink: 0;
+}
+.board-squareCenter-line:nth-child(2n)
+{
+  margin-left: -71px;
+  margin-right: 29px;
+  transform: rotate(-60deg);
+}
+.board-squareCenter-row:nth-child(2n) .board-squareCenter-line
+{
+  transform: rotate(60deg);
+}
+.board-squareCenter-row:nth-child(2n) .board-squareCenter-line:nth-child(2n)
+{
+  transform: rotate(-30deg);
+  margin-left: -72px;
+  margin-right: 30px;
+}
+
+
+/* ------------------------ */
+/* -- Square color layer -- */
+/* ------------------------ */
+.board-squareColor-row
+{
+  display: flex;
+  margin-left: 55px;
+  margin-bottom: -1px;
+}
+.board-squareColor-row:nth-child(2n)
+{
+  margin-left: 6px;
+}
+.board-squareColor-square
+{
+  width: 50px;
+  height: 50px;
+  background: #c79223;
+  opacity: 1;
+  transform: rotate(-15deg);
+  margin-right: 48px;
+  flex-shrink: 0;
+}
+.board-squareColor-row:nth-child(2n) .board-squareColor-square
+{
+  transform: rotate(15deg);
+}
+
+
+/* ------------------------ */
+/* -- Stones layer -------- */
+/* ------------------------ */
+.boardGame-stones-row
+{
+  display: flex;
+  margin-top: -15px;
+  margin-left: -11px;
+  margin-bottom: 8px;
+}
+.boardGame-stones-row.offset
+{
+  margin-left: 0;
+  margin-bottom: 9px;
+}
+.boardGame-stones-row.squareCenter
+{
+  margin-left: 67px;
+}
+.boardGame-stones-row.squareCenter.no-offset
+{
+  margin-left: 18px;
+}
+.boardGame-stone
+{
+  height: 26px;
+  width: 26px;
+  background: black;
+  border-radius: 50%;
+  margin-right: 23px;
+  flex-shrink: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.boardGame-stone.active.white
+{
+  background: white !important;
+}
+.boardGame-stone.active.black
+{
+  background: black !important;
+}
+.boardGame-stone.active,
+.boardGame-stone.active:hover
+{
+  opacity: 1;
+  cursor: default;
+}
+.board-layer.stone.white .boardGame-stone
+{
+  background: white;
+}
+.boardGame-stone:nth-child(2n)
+{
+  margin-top: 10px;
+}
+.boardGame-stones-row.squareCenter .boardGame-stone
+{
+  margin-right: 72px;
+}
+.boardGame-stones-row.squareCenter .boardGame-stone:nth-child(2n)
+{
+  margin-top: 0;
+}
+
+.boardGame-stone:hover
+{
+  opacity: 0.5;
+}
