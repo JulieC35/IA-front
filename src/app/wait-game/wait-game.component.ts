@@ -14,7 +14,7 @@ export class WaitGameComponent implements OnInit {
   constructor(private serveurService: ServeurService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['idPartie'];
+    this.id = this.route.snapshot.params.idPartie;
   }
 
 }

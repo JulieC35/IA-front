@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'app-game-board',
   templateUrl: './game-board.component.html',
-  styleUrls: ['./game-board.component.css']
+  styleUrls: ['./game-board.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GameBoardComponent implements OnInit {
 
@@ -17,13 +18,25 @@ export class GameBoardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
+    // console.log(this.boardGame);
+    this.addCoordBeforeBoard();
     this.createColums();
     this.createLines();
-
+    this.createDiamondCenter();
+    this.createSquareCenter();
+    this.addColor();
+    this.addStones();
+    this.addCoord();
   }
 
   createColums() {
+    let htmlBoardCoordH = '<div class="board-coord-bar horizontal">';
+
+    for (let i = 0; i < 12; i++) {
+      htmlBoardCoordH += '<div class="board-coord">' + this.columns[i] + '</div>';
+    }
+    htmlBoardCoordH += '</div>';
+    document.getElementById('boardGame').innerHTML += htmlBoardCoordH;
     let htmlColumnLayer = '<div class="board-layer">';
     for (let i = 0; i < 12; i++) {
       htmlColumnLayer += '<div class="board-column">';
@@ -35,7 +48,7 @@ export class GameBoardComponent implements OnInit {
     htmlColumnLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.append(htmlColumnLayer);
+    document.getElementById('boardGame').innerHTML += (htmlColumnLayer);
   }
 
   createLines() {
@@ -49,7 +62,7 @@ export class GameBoardComponent implements OnInit {
     }
     htmlRowLayer += '</div>';
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.append(htmlRowLayer);
+    document.getElementById('boardGame').innerHTML += htmlRowLayer;
   }
 
   createDiamondCenter() {
@@ -74,7 +87,7 @@ export class GameBoardComponent implements OnInit {
     htmlDiamondCenterLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.append(htmlDiamondCenterLayer);
+    document.getElementById('boardGame').innerHTML.concat(htmlDiamondCenterLayer);
   }
 
   createSquareCenter() {
@@ -98,7 +111,7 @@ export class GameBoardComponent implements OnInit {
     htmlSquareCenterLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.append(htmlSquareCenterLayer);
+    document.getElementById('boardGame').innerHTML.concat(htmlSquareCenterLayer);
   }
 
   addColor() {
@@ -121,7 +134,7 @@ export class GameBoardComponent implements OnInit {
     htmlSquareColorLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.append(htmlSquareColorLayer);
+    document.getElementById('boardGame').innerHTML.concat(htmlSquareColorLayer);
   }
 
   addStones() {
@@ -135,7 +148,7 @@ export class GameBoardComponent implements OnInit {
       htmlStoneLayer += '<div class="boardGame-stones-row">';
       for (let j = 0; j < 12; j++) {
         const id = this.columns[j] + ',' + this.rows[indexRows];
-        htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
+        htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
       }
       htmlStoneLayer += '</div>';
 
@@ -145,7 +158,7 @@ export class GameBoardComponent implements OnInit {
       for (let j = 0; j < 5; j++) {
         const id = this.columns[indexColumns] + '-' + this.columns[indexColumns + 1] + ','
           + this.rows[indexRows] + '-' + this.rows[indexRows + 1];
-        htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
+        htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
         indexColumns += 2;
       }
       htmlStoneLayer += '</div>';
@@ -156,7 +169,7 @@ export class GameBoardComponent implements OnInit {
       htmlStoneLayer += '<div class="boardGame-stones-row offset">';
       for (let j = 0; j < 12; j++) {
         const id = this.columns[j] + ',' + this.rows[indexRows];
-        htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
+        htmlStoneLayer += '<div class="boardGame-stone " (click)="stoneClick($event)" id="' + id + '"></div>';
       }
       htmlStoneLayer += '</div>';
 
@@ -167,7 +180,7 @@ export class GameBoardComponent implements OnInit {
         for (let j = 0; j < 6; j++) {
           const id = this.columns[indexColumns] + '-' + this.columns[indexColumns + 1] + ','
             + this.rows[indexRows] + '-' + this.rows[indexRows + 1];
-          htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
+          htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
           indexColumns += 2;
         }
         htmlStoneLayer += '</div>';
@@ -180,7 +193,19 @@ export class GameBoardComponent implements OnInit {
     htmlStoneLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.append(htmlStoneLayer);
+    document.getElementById('boardGame').innerHTML += htmlStoneLayer;
+  }
+
+  addCoordBeforeBoard() {
+    let htmlBoardCoord = '<div class="board-coord-bar">';
+    for (let i = 0; i < 12; i++) {
+      htmlBoardCoord += '<div class="board-coord">' + this.rows[i] + '</div>';
+    }
+    htmlBoardCoord += '</div>';
+    document.getElementById('boardContainer').innerHTML += htmlBoardCoord;
+    const board = '<div class="board" id="boardGame" >\n' +
+      '  </div>';
+    document.getElementById('boardContainer').innerHTML += board;
   }
 
   addCoord() {
@@ -192,8 +217,8 @@ export class GameBoardComponent implements OnInit {
     htmlBoardCoord += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardContainer
-    this.boardContainer.prepend(htmlBoardCoord);
-    this.boardContainer.append(htmlBoardCoord);
+    // this.boardContainer.prepend(htmlBoardCoord);
+    document.getElementById('boardContainer').innerHTML += htmlBoardCoord;
 
 
     // Ajout des coordonnées sur le bas et haut du plateau
@@ -205,8 +230,36 @@ export class GameBoardComponent implements OnInit {
     htmlBoardCoordH += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    this.boardGame.prepend(htmlBoardCoordH);
-    this.boardGame.append(htmlBoardCoordH);
+    // this.boardGame.prepend(htmlBoardCoordH);
+    document.getElementById('boardGame').innerHTML += htmlBoardCoordH;
+  }
+
+  stoneClick(event) {
+    console.log(event);
+    alert(event);
+    if (!event.hasClass('input')) {
+      const coord = event.getId();
+      console.log(coord);
+    }
+  }
+
+  onResultSentCoord(result) {
+    result = parseOTPMessage(result);
+
+    if (result.type === 'error') {
+      console.log(result);
+      // Affichage de l'erreur
+      // TODO Shake
+    } else {
+      $(this).addClass('active');
+      if ($('.board-layer.stone').hasClass('white')) {
+        $(this).addClass('white');
+      } else {
+        $(this).addClass('black');
+      }
+
+      $('.board-layer.stone').toggleClass('white');
+    }
   }
 
 }

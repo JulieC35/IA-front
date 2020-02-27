@@ -12,7 +12,7 @@ import { GameBoardComponent } from './game-board/game-board.component';
 const appRoutes: Routes = [
   {path: '', component: AccueilViewComponent},
   {path: 'waitGame/:idPartie', component: WaitGameComponent},
-  {path: 'gameBoard/:idPartie', component: GameBoardComponent}
+  {path: 'gameBoard', component: GameBoardComponent}
 ];
 
 @NgModule({
