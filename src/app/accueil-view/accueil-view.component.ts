@@ -21,11 +21,15 @@ export class AccueilViewComponent implements OnInit {
 
 
   human() {
-    this.id = this.randomIntFromInterval(1000, 9999);
+    this.id = this.randomIntFromInterval(100000, 999999);
     const urlH = this.url + this.id;
     this.serveurService = this.serveurService.init(urlH);
-    console.log(this.serveurService.socket);
-    this.router.navigate(['waitGame/' + this.id]);
+    this.serveurService.socket.onmessage = this.serveurService.moveWait;
+    if (ServeurService.instance != null) {
+      this.router.navigate(['waitGame/' + this.id]);
+    } else {
+      console.log('Pas content');
+    }
   }
 
   getPartie() {

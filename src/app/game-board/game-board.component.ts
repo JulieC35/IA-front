@@ -1,4 +1,5 @@
 import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ServeurService} from '../services/serveur.service';
 
 @Component({
   selector: 'app-game-board',
@@ -6,7 +7,9 @@ import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewEncapsula
   styleUrls: ['./game-board.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GameBoardComponent implements OnInit {
+
+export class GameBoardComponent implements OnInit
+{
 
   @Input() boardGame;
   @Input() boardContainer;
@@ -15,7 +18,7 @@ export class GameBoardComponent implements OnInit {
 
   rows = ['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'];
 
-  constructor() { }
+  constructor(private serveurService: ServeurService) { }
 
   ngOnInit(): void {
     // console.log(this.boardGame);
@@ -27,6 +30,24 @@ export class GameBoardComponent implements OnInit {
     this.addColor();
     this.addStones();
     this.addCoord();
+    this.addListener();
+  }
+
+  addListener() {
+    const stones = document.getElementsByClassName('boardGame-stone');
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < stones.length; i++) {
+      // @ts-ignore
+      stones[i].onclick = this.stoneClick;
+    }
+  }
+
+  stoneClick(event: any) {
+    console.log('stone click');
+    if (!event.target.getAttribute('class').includes('active')) {
+      const coord = event.target.id;
+      console.log(coord);
+    }
   }
 
   createColums() {
@@ -169,7 +190,7 @@ export class GameBoardComponent implements OnInit {
       htmlStoneLayer += '<div class="boardGame-stones-row offset">';
       for (let j = 0; j < 12; j++) {
         const id = this.columns[j] + ',' + this.rows[indexRows];
-        htmlStoneLayer += '<div class="boardGame-stone " (click)="stoneClick($event)" id="' + id + '"></div>';
+        htmlStoneLayer += '<div class="boardGame-stone " onclick="stoneClick($event)" id="' + id + '"></div>';
       }
       htmlStoneLayer += '</div>';
 
@@ -180,7 +201,7 @@ export class GameBoardComponent implements OnInit {
         for (let j = 0; j < 6; j++) {
           const id = this.columns[indexColumns] + '-' + this.columns[indexColumns + 1] + ','
             + this.rows[indexRows] + '-' + this.rows[indexRows + 1];
-          htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
+          htmlStoneLayer += '<div class="boardGame-stone" onclick="stoneClick($event)" id="' + id + '"></div>';
           indexColumns += 2;
         }
         htmlStoneLayer += '</div>';
@@ -234,32 +255,5 @@ export class GameBoardComponent implements OnInit {
     document.getElementById('boardGame').innerHTML += htmlBoardCoordH;
   }
 
-  stoneClick(event) {
-    console.log(event);
-    alert(event);
-    if (!event.hasClass('input')) {
-      const coord = event.getId();
-      console.log(coord);
-    }
-  }
-
-  onResultSentCoord(result) {
-    /*result = parseOTPMessage(result);
-
-    if (result.type === 'error') {
-      console.log(result);
-      // Affichage de l'erreur
-      // TODO Shake
-    } else {
-      $(this).addClass('active');
-      if ($('.board-layer.stone').hasClass('white')) {
-        $(this).addClass('white');
-      } else {
-        $(this).addClass('black');
-      }
-
-      $('.board-layer.stone').toggleClass('white');
-    }*/
-  }
 
 }
