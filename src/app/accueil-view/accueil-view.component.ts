@@ -11,7 +11,7 @@ export class AccueilViewComponent implements OnInit {
 
   @Input() idPartie: number;
   private id: number;
-  private url = 'ws://localhost:8989/room/';
+  private url = 'ws://localhost:4200/room/';
 
   constructor(private serveurService: ServeurService, private router: Router) {
   }
@@ -33,6 +33,7 @@ export class AccueilViewComponent implements OnInit {
     console.log(urlR);
     this.serveurService = this.serveurService.init(urlR);
     console.log(this.serveurService.socket);
+    this.router.navigate(['gameBoard']);
   }
 
   randomIntFromInterval(min, max) { // min and max included

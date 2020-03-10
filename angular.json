@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "IA-front"
+    }
+  },
+  "defaultProject": "IA-front",
+  "cli": {
+    "analytics": "2566c7f3-492e-4433-9f3e-ae122cd3e76a"
+  }
 }

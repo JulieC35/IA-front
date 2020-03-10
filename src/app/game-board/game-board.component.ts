@@ -87,7 +87,7 @@ export class GameBoardComponent implements OnInit {
     htmlDiamondCenterLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    document.getElementById('boardGame').innerHTML.concat(htmlDiamondCenterLayer);
+    document.getElementById('boardGame').innerHTML += htmlDiamondCenterLayer;
   }
 
   createSquareCenter() {
@@ -111,7 +111,7 @@ export class GameBoardComponent implements OnInit {
     htmlSquareCenterLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    document.getElementById('boardGame').innerHTML.concat(htmlSquareCenterLayer);
+    document.getElementById('boardGame').innerHTML += htmlSquareCenterLayer;
   }
 
   addColor() {
@@ -134,7 +134,7 @@ export class GameBoardComponent implements OnInit {
     htmlSquareColorLayer += '</div>';
 
     // Ajout du code à l'intérieur de la balise boardGame
-    document.getElementById('boardGame').innerHTML.concat(htmlSquareColorLayer);
+    document.getElementById('boardGame').innerHTML += htmlSquareColorLayer;
   }
 
   addStones() {
@@ -244,7 +244,7 @@ export class GameBoardComponent implements OnInit {
   }
 
   onResultSentCoord(result) {
-    result = parseOTPMessage(result);
+    /*result = parseOTPMessage(result);
 
     if (result.type === 'error') {
       console.log(result);
@@ -259,7 +259,7 @@ export class GameBoardComponent implements OnInit {
       }
 
       $('.board-layer.stone').toggleClass('white');
-    }
+    }*/
   }
 
 }
