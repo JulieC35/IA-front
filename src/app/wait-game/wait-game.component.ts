@@ -19,9 +19,10 @@ export class WaitGameComponent implements OnInit {
   }
 
   moveBoard(event: any) {
+    console.log(event);
     // tslint:disable-next-line:triple-equals
-    if(event.data == '$READY') {
-      this.router.navigate(['gameBoard/' + this.id]);
+    if (event.data == '$READY') {
+      this.router.navigate(['gameBoard/' + this.id + '/J1']);
     }
   }
 

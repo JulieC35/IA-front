@@ -16,25 +16,12 @@ export class ServeurService {
     return ServeurService.instance;
   }
 
-  moveWait(event: any) {
-    // tslint:disable-next-line:triple-equals
-    if (event.data == '#Room created') {
-      console.log(this);
-      const id = this.url.split('room/')[1];
-      console.log(id);
-      console.log('Passé');
-    } else {
-      console.log(event.data);
-      ServeurService.instance = null;
-      console.log(event);
-      console.log('Pas passé, instance: ' + ServeurService.instance);
-    }
-  }
-
   init(url: string) {
     this.url = url;
+    console.log(url);
     if (!ServeurService.instance) {
       this.socket = new WebSocket(url);
+      console.log(this.socket);
       ServeurService.instance = this;
     }
     return ServeurService.instance;

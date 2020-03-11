@@ -12,8 +12,8 @@ import { GameBoardComponent } from './game-board/game-board.component';
 
 const appRoutes: Routes = [
   {path: '', component: AccueilViewComponent},
-  {path: 'waitGame/:idPartie', component: WaitGameComponent},
-  {path: 'gameBoard', component: GameBoardComponent}
+  {path: 'waitGame/:idPartie/:idJoueur', component: WaitGameComponent},
+  {path: 'gameBoard/:idJoueur', component: GameBoardComponent}
 ];
 
 @NgModule({
