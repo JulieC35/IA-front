@@ -11,7 +11,7 @@ export class AccueilViewComponent implements OnInit {
 
   @Input() idPartie: number;
   private id: number;
-  private url = 'ws://localhost:4200/room/';
+  private url = 'ws://localhost:8989/room/';
 
   constructor(private serveurService: ServeurService, private router: Router) {
   }
@@ -24,12 +24,29 @@ export class AccueilViewComponent implements OnInit {
     this.id = this.randomIntFromInterval(100000, 999999);
     const urlH = this.url + this.id;
     this.serveurService = this.serveurService.init(urlH);
-    this.serveurService.socket.onmessage = this.serveurService.moveWait;
+    this.serveurService.socket.onmessage = this.moveWait(event, this.reallyMove);
     if (ServeurService.instance != null) {
-      // this.router.navigate(['waitGame/' + this.id]);
+
     } else {
       console.log('Pas content');
     }
+  }
+
+  reallyMove() {
+    this.router.navigate(['waitGame/' + this.id + '/J1']);
+  }
+
+  moveWait(event: any, callback) {
+    // tslint:disable-next-line:triple-equals
+    if (event.data == '#Room created') {
+      const id = this.url.split('room/')[1];
+      console.log(id);
+    } else {
+      ServeurService.instance = null;
+      console.log(event);
+      console.log('Pas passé, instance: ' + ServeurService.instance);
+    }
+    ;
   }
 
   getPartie() {
@@ -37,7 +54,7 @@ export class AccueilViewComponent implements OnInit {
     console.log(urlR);
     this.serveurService = this.serveurService.init(urlR);
     console.log(this.serveurService.socket);
-    this.router.navigate(['gameBoard']);
+    this.router.navigate(['gameBoard/J2']);
   }
 
   randomIntFromInterval(min, max) { // min and max included

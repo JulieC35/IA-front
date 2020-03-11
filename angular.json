@@ -27,7 +27,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["jquery-3.4.1.min.js"]
           },
           "configurations": {
             "production": {
