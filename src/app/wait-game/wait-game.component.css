@@ -1,11 +1,11 @@
 #idWaitGame {
   display: block;
   font-size: 40px;
-  color: #75B9BE;
+  color: #338033;
   text-align: center;
 }
 
-h2 {
-  text-align: center;
-  color: #303030;
+#waitingId{
+	margin: 40px;
+	text-align: center;
 }
