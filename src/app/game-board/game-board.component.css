@@ -60,11 +60,11 @@ body
 }
 .board-coord
 {
-  color: #daa432;
+  color: white;
 }
 .board-coord-bar.horizontal .board-coord
 {
-  color: black;
+  color: white;
 }
 
 /* ------------------ */
