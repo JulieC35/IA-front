@@ -9,6 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import { WaitGameComponent } from './wait-game/wait-game.component';
 import { GameBoardComponent } from './game-board/game-board.component';
+
 const appRoutes: Routes = [
   {path: '', component: AccueilViewComponent},
   {path: 'waitGame/:idPartie', component: WaitGameComponent},

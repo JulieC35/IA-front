@@ -26,7 +26,7 @@ export class AccueilViewComponent implements OnInit {
     this.serveurService = this.serveurService.init(urlH);
     this.serveurService.socket.onmessage = this.serveurService.moveWait;
     if (ServeurService.instance != null) {
-      this.router.navigate(['waitGame/' + this.id]);
+      // this.router.navigate(['waitGame/' + this.id]);
     } else {
       console.log('Pas content');
     }
