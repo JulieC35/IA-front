@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 import {Router} from '@angular/router';
+type PromiseResolve<T> = (value?: T | PromiseLike<T>) => void;
+type PromiseReject = (error?: any) => void;
 
 @Component({
   selector: 'app-accueil-view',
@@ -24,29 +26,24 @@ export class AccueilViewComponent implements OnInit {
     this.id = this.randomIntFromInterval(100000, 999999);
     const urlH = this.url + this.id;
     this.serveurService = this.serveurService.init(urlH);
-    this.serveurService.socket.onmessage = this.moveWait(event, this.reallyMove);
-    if (ServeurService.instance != null) {
-
-    } else {
-      console.log('Pas content');
-    }
+    this.getMovePromise().then(
+      data => this.router.navigate(['waitGame/' + this.id + '/J1']));
   }
 
-  reallyMove() {
-    this.router.navigate(['waitGame/' + this.id + '/J1']);
-  }
 
-  moveWait(event: any, callback) {
-    // tslint:disable-next-line:triple-equals
-    if (event.data == '#Room created') {
-      const id = this.url.split('room/')[1];
-      console.log(id);
-    } else {
-      ServeurService.instance = null;
-      console.log(event);
-      console.log('Pas passé, instance: ' + ServeurService.instance);
-    }
-    ;
+
+  getMovePromise() {
+    return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
+      // tslint:disable-next-line:only-arrow-functions
+      this.serveurService.socket.onmessage = (event) => {
+        // tslint:disable-next-line:triple-equals
+        if (event.data == '#Room created') {
+          resolve(event.data);
+        } else {
+          reject(event.data);
+        }
+      };
+    });
   }
 
   getPartie() {

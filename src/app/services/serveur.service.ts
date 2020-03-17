@@ -27,10 +27,11 @@ export class ServeurService {
     return ServeurService.instance;
   }
 
-  waitOpen() {
+  waitOpen(callback) {
     ServeurService.instance.onopen = () => {
       console.log('Server and client are connecting together !');
     };
+    callback();
   }
 
   sendMessage(message, callback) {
