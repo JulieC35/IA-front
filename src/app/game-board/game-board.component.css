@@ -6,6 +6,11 @@ body
   /*display: flex;*/
   justify-content: center;
   align-items: center;
+  --color1: #c6c9c7;
+  --color2: #909391;
+  --borderColor: black;
+  --stone1Color : white;
+  --stone2Color : black;
 }
 
 .boardGame-container
@@ -20,7 +25,7 @@ body
   margin: 50px 0;
   width: 600px;
   height: 600px;
-  background: #daa432;
+  background: var(--color1);
   position: relative;
   display: flex;
 }
@@ -60,11 +65,11 @@ body
 }
 .board-coord
 {
-  color: white;
+  color: var(--color1);
 }
 .board-coord-bar.horizontal .board-coord
 {
-  color: white;
+  color: var(--color1);
 }
 
 /* ------------------ */
@@ -114,7 +119,7 @@ body
 {
   width: 1px;
   height: 50px;
-  background: black;
+  background: var(--borderColor);
   margin-bottom: -1px;
   flex-shrink: 0;
 }
@@ -143,7 +148,7 @@ body
 {
   width: 50px;
   height: 1px;
-  background: black;
+  background: var(--borderColor);
   margin-right: -1px;
   flex-shrink: 0;
 }
@@ -178,7 +183,7 @@ body
 {
   width: 50px;
   height: 1px;
-  background: black;
+  background: var(--borderColor);
   transform: rotate(-45deg);
   margin-right: 48px;
   flex-shrink: 0;
@@ -210,7 +215,7 @@ body
 {
   width: 70px;
   height: 1px;
-  background: black;
+  background: var(--borderColor);
   transform: rotate(30deg);
   flex-shrink: 0;
 }
@@ -249,7 +254,7 @@ body
 {
   width: 50px;
   height: 50px;
-  background: #c79223;
+  background: var(--color2);
   opacity: 1;
   transform: rotate(-15deg);
   margin-right: 48px;
@@ -288,20 +293,42 @@ body
 {
   height: 26px;
   width: 26px;
+  position: relative;
   background: black;
   border-radius: 50%;
   margin-right: 23px;
   flex-shrink: 0;
   opacity: 0;
   cursor: pointer;
+  box-shadow: 1px 1px 1px 1px #00000040;
+}
+
+.boardGame-stone::after
+{
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  top: 3px;
+  left: 3px;
+  border: 2px double;
 }
 .boardGame-stone.active.white
 {
-  background: white !important;
+  background: var(--stone1Color) !important;
+}
+.boardGame-stone.active.white::after
+{
+  border-color: var(--stone2Color);
 }
 .boardGame-stone.active.black
 {
-  background: black !important;
+  background: var(--stone2Color) !important;
+}
+.boardGame-stone.active.black::after
+{
+  border-color: var(--stone1Color);
 }
 .boardGame-stone.active,
 .boardGame-stone.active:hover
