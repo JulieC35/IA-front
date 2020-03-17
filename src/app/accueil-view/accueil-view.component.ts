@@ -51,7 +51,7 @@ export class AccueilViewComponent implements OnInit {
     console.log(urlR);
     this.serveurService = this.serveurService.init(urlR);
     console.log(this.serveurService.socket);
-    this.router.navigate(['gameBoard/J2']);
+    this.router.navigate(['gameBoard/' + this.idPartie + '/J2']);
   }
 
   randomIntFromInterval(min, max) { // min and max included
