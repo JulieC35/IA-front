@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
+type PromiseResolve<T> = (value?: T | PromiseLike<T>) => void;
+type PromiseReject = (error?: any) => void;
+
 @Component({
   selector: 'app-wait-game',
   templateUrl: './wait-game.component.html',
@@ -15,15 +18,26 @@ export class WaitGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params.idPartie;
-    this.serveurService.socket.onmessage = this.moveBoard;
+    this.getMovePromise().then(
+      data => this.router.navigate(['gameBoard/' + this.id + '/J1']));
   }
 
-  moveBoard(event: any) {
-    console.log(event);
-    // tslint:disable-next-line:triple-equals
-    if (event.data == '$READY') {
-      this.router.navigate(['gameBoard/' + this.id + '/J1']);
-    }
+  getMovePromise() {
+    return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
+      // tslint:disable-next-line:only-arrow-functions
+      this.serveurService.socket.onmessage = (event) => {
+        switch (event.data) {
+          case'$AWAITING':
+            console.log(event.data);
+            break;
+          case '$START':
+            resolve(event.data);
+            break;
+          default:
+            reject(event.data);
+        }
+      };
+    });
   }
 
 }
