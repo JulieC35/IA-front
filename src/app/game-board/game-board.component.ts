@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import {ActivatedRoute} from '@angular/router';
 type PromiseResolve<T> = (value?: T | PromiseLike<T>) => void;
 type PromiseReject = (error?: any) => void;
+import {GameBoard} from './GameBoard';
 
 @Component({
   selector: 'app-game-board',
@@ -16,10 +17,7 @@ export class GameBoardComponent implements OnInit {
 
   @Input() boardGame;
   @Input() boardContainer;
-
-  columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
-
-  rows = ['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'];
+  board;
 
   yourTurn: boolean;
   endOfGame = false;
@@ -27,15 +25,8 @@ export class GameBoardComponent implements OnInit {
   constructor(private serveurService: ServeurService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // console.log(this.boardGame);
-    this.addCoordBeforeBoard();
-    this.createColums();
-    this.createLines();
-    this.createDiamondCenter();
-    this.createSquareCenter();
-    this.addColor();
-    this.addStones();
-    this.addCoord();
+    this.board = new GameBoard(5);
+    this.board.generateBoardGame();
     this.addListener();
     // tslint:disable-next-line:triple-equals
     this.yourTurn = (this.route.snapshot.params.idJoueur == 'J1');
@@ -60,6 +51,7 @@ export class GameBoardComponent implements OnInit {
           case '$OPPONENT':
             const coord = datas[1];
             let classname = 'active';
+            // tslint:disable-next-line:triple-equals
             if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
               classname += ' white';
             } else {
@@ -105,6 +97,7 @@ export class GameBoardComponent implements OnInit {
       stone.onclick = (event) => {
         if (!event.target.getAttribute('class').includes('active')) {
           let classname;
+          // tslint:disable-next-line:triple-equals
           if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
             classname = 'active black';
           } else {
@@ -119,7 +112,7 @@ export class GameBoardComponent implements OnInit {
     });
   }
 
-  createColums() {
+  /*createColums() {
     let htmlBoardCoordH = '<div class="board-coord-bar horizontal">';
 
     for (let i = 0; i < 12; i++) {
@@ -322,7 +315,18 @@ export class GameBoardComponent implements OnInit {
     // Ajout du code à l'intérieur de la balise boardGame
     // this.boardGame.prepend(htmlBoardCoordH);
     document.getElementById('boardGame').innerHTML += htmlBoardCoordH;
-  }
+  } */
 
+  stoneClick(event: any) {
+    console.log('stone click');
+    if (!event.target.getAttribute('class').includes('active')) {
+      const coord = event.target.id;
+      const idJquery = '#' + coord;
+      console.log(idJquery);
+      $(event.target).addClass('active');
+      console.log(event.target);
+      console.log(coord);
+    }
+  }
 
 }

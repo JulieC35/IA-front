@@ -33,9 +33,9 @@ body
 .board-coord-bar
 {
   margin-right: 6px;
-  padding: 20px 0 25px;
+  padding: 22px 0;
   box-sizing: border-box;
-  height: 600px;
+  height: 100%;
   width: 30px;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@ body
   margin-right: 0;
   width: 600px;
   height: 30px;
-  padding: 0 25px 0 20px;
+  padding: 0 22px;
 }
 .board-coord-bar:last-child
 {
