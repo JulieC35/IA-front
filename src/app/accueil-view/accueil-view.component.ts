@@ -30,14 +30,12 @@ export class AccueilViewComponent implements OnInit {
       data => this.router.navigate(['waitGame/' + this.id + '/J1']));
   }
 
-
-
   getMovePromise() {
     return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
       // tslint:disable-next-line:only-arrow-functions
       this.serveurService.socket.onmessage = (event) => {
         // tslint:disable-next-line:triple-equals
-        if (event.data == '#Room created') {
+        if (event.data == '#Room created' || event.data == '#Room joined') {
           resolve(event.data);
         } else {
           reject(event.data);
@@ -51,7 +49,8 @@ export class AccueilViewComponent implements OnInit {
     console.log(urlR);
     this.serveurService = this.serveurService.init(urlR);
     console.log(this.serveurService.socket);
-    this.router.navigate(['gameBoard/' + this.idPartie + '/J2']);
+    this.getMovePromise().then(
+      data => this.router.navigate(['gameBoard/' + this.idPartie + '/J2']));
   }
 
   randomIntFromInterval(min, max) { // min and max included

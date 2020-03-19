@@ -1,6 +1,9 @@
 import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 import * as $ from 'jquery';
+import {ActivatedRoute} from '@angular/router';
+type PromiseResolve<T> = (value?: T | PromiseLike<T>) => void;
+type PromiseReject = (error?: any) => void;
 
 @Component({
   selector: 'app-game-board',
@@ -18,7 +21,10 @@ export class GameBoardComponent implements OnInit {
 
   rows = ['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'];
 
-  constructor(private serveurService: ServeurService) { }
+  yourTurn: boolean;
+  endOfGame = false;
+
+  constructor(private serveurService: ServeurService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     // console.log(this.boardGame);
@@ -31,27 +37,86 @@ export class GameBoardComponent implements OnInit {
     this.addStones();
     this.addCoord();
     this.addListener();
+    // tslint:disable-next-line:triple-equals
+    this.yourTurn = (this.route.snapshot.params.idJoueur == 'J1');
+    while (!this.endOfGame) {
+      this.getServeurMessagePromise();
+    }
+  }
+
+  getServeurMessagePromise() {
+    return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
+      // tslint:disable-next-line:only-arrow-functions
+      this.serveurService.socket.onmessage = (event) => {
+        const datas = event.data.split(' ');
+        const command = datas[0];
+        switch (command) {
+          case'$AWAITING':
+            this.yourTurn = false;
+            break;
+          case '$READY':
+            this.yourTurn = true;
+            break;
+          case '$OPPONENT':
+            const coord = datas[1];
+            let classname = 'active';
+            if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
+              classname += ' white';
+            } else {
+              classname += ' black';
+            }
+            const idJquery = '#' + coord;
+            $(idJquery).addClass(classname);
+            break;
+          case '=':
+            console.log('capturés: ' + datas[1]);
+            break;
+          default:
+            reject(event.data);
+        }
+      };
+    });
   }
 
   addListener() {
     const stones = document.getElementsByClassName('boardGame-stone');
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < stones.length; i++) {
-      // @ts-ignore
-      stones[i].onclick = this.stoneClick;
+      this.getStoneClickPromise(stones[i]).then(
+        data => {
+          if (this.yourTurn) {
+            const classname = data[0];
+            const target = data[1];
+            const coord = data[2];
+            console.log(coord);
+            this.serveurService.sendMessage(coord);
+            $(target).addClass(classname);
+            this.yourTurn = !this.yourTurn;
+          } else {
+            console.log('Ce n\'est pas ton tour !');
+          }
+        });
     }
   }
 
-  stoneClick(event: any) {
-    console.log('stone click');
-    if (!event.target.getAttribute('class').includes('active')) {
-      const coord = event.target.id;
-      const idJquery = '#' + coord;
-      console.log(idJquery);
-      $(event.target).addClass("active");
-      console.log(event.target);
-      console.log(coord);
-    }
+  getStoneClickPromise(stone) {
+    return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
+      // tslint:disable-next-line:only-arrow-functions
+      stone.onclick = (event) => {
+        if (!event.target.getAttribute('class').includes('active')) {
+          let classname;
+          if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
+            classname = 'active black';
+          } else {
+            classname = 'active white';
+          }
+          const data = [classname, event.target, event.target.id];
+          resolve(data);
+        } else {
+          reject('Pierre déjà placée !');
+        }
+      };
+    });
   }
 
   createColums() {
@@ -173,7 +238,7 @@ export class GameBoardComponent implements OnInit {
       htmlStoneLayer += '<div class="boardGame-stones-row">';
       for (let j = 0; j < 12; j++) {
         const id = this.columns[j] + ',' + this.rows[indexRows];
-        htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
+        htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
       }
       htmlStoneLayer += '</div>';
 
@@ -182,8 +247,8 @@ export class GameBoardComponent implements OnInit {
       indexColumns = 1;
       for (let j = 0; j < 5; j++) {
         const id = this.columns[indexColumns] + '-' + this.columns[indexColumns + 1] + ','
-          + this.rows[indexRows] + '-' + this.rows[indexRows + 1];
-        htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
+          + this.rows[indexRows + 1] + '-' + this.rows[indexRows];
+        htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
         indexColumns += 2;
       }
       htmlStoneLayer += '</div>';
@@ -194,7 +259,7 @@ export class GameBoardComponent implements OnInit {
       htmlStoneLayer += '<div class="boardGame-stones-row offset">';
       for (let j = 0; j < 12; j++) {
         const id = this.columns[j] + ',' + this.rows[indexRows];
-        htmlStoneLayer += '<div class="boardGame-stone " onclick="stoneClick($event)" id="' + id + '"></div>';
+        htmlStoneLayer += '<div class="boardGame-stone " id="' + id + '"></div>';
       }
       htmlStoneLayer += '</div>';
 
@@ -205,7 +270,7 @@ export class GameBoardComponent implements OnInit {
         for (let j = 0; j < 6; j++) {
           const id = this.columns[indexColumns] + '-' + this.columns[indexColumns + 1] + ','
             + this.rows[indexRows] + '-' + this.rows[indexRows + 1];
-          htmlStoneLayer += '<div class="boardGame-stone" onclick="stoneClick($event)" id="' + id + '"></div>';
+          htmlStoneLayer += '<div class="boardGame-stone" id="' + id + '"></div>';
           indexColumns += 2;
         }
         htmlStoneLayer += '</div>';

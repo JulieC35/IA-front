@@ -28,7 +28,6 @@ export class WaitGameComponent implements OnInit {
       this.serveurService.socket.onmessage = (event) => {
         switch (event.data) {
           case'$AWAITING':
-            console.log(event.data);
             break;
           case '$START':
             resolve(event.data);

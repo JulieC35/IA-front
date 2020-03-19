@@ -34,7 +34,8 @@ export class ServeurService {
     callback();
   }
 
-  sendMessage(message, callback) {
-    this.socket.sendMessage(message, callback);
+  sendMessage(message) {
+    console.log('data send to the server: ' + message);
+    this.socket.send(message);
   }
 }

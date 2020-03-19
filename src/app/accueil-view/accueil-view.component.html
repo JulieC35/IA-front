@@ -2,20 +2,12 @@
   <div id="lancerPartie">
     <h2>Nouvelle partie</h2>
     <button (click)="human()">1 vs 1</button>
-    <button onclick="ia">1 vs IA</button>
+    <button onclick="ia()">1 vs IA</button>
   </div>
   <div id="rejoindrePartie">
     <h2>Rejoindre une partie existante</h2>
     <input type="number" [(ngModel)]="idPartie" min="1000" max="9999">
-    <label>{{idPartie}}</label>
+    <!--<label>{{idPartie}}</label>-->
     <button (click)="getPartie()">Rejoindre</button>
   </div>
-</div>
-
-<!-- Mettre dans une autre page -->
-<div id="turn" hidden="true">
-	<p>C'est ton tour !</p>
-</div>
-<div class="boardGame-container" id="boardContainer" hidden="true">
-  <div class="board" id="boardGame"></div>
 </div>
