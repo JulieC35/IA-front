@@ -30,9 +30,10 @@ export class GameBoardComponent implements OnInit {
     this.addListener();
     // tslint:disable-next-line:triple-equals
     this.yourTurn = (this.route.snapshot.params.idJoueur == 'J1');
-    while (!this.endOfGame) {
+    this.getServeurMessagePromise();
+    /*while (!this.endOfGame) {
       this.getServeurMessagePromise();
-    }
+    }*/
   }
 
   getServeurMessagePromise() {
@@ -42,23 +43,28 @@ export class GameBoardComponent implements OnInit {
         const datas = event.data.split(' ');
         const command = datas[0];
         switch (command) {
-          case'$AWAITING':
+          case '$START':
+            console.log('Début de la partie !')
+            break;
+          case '$AWAITING':
             this.yourTurn = false;
             break;
           case '$READY':
             this.yourTurn = true;
             break;
-          case '$OPPONENT':
+          case '#OPPONENT':
             const coord = datas[1];
+            console.log('opponent: ' + coord);
             let classname = 'active';
+            document.getElementById(coord).classList.add('active');
             // tslint:disable-next-line:triple-equals
             if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
               classname += ' white';
+              document.getElementById(coord).classList.add('white');
             } else {
               classname += ' black';
+              document.getElementById(coord).classList.add('black');
             }
-            const idJquery = '#' + coord;
-            $(idJquery).addClass(classname);
             break;
           case '=':
             console.log('capturés: ' + datas[1]);
