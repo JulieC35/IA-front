@@ -9,11 +9,15 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import { WaitGameComponent } from './wait-game/wait-game.component';
 import { GameBoardComponent } from './game-board/game-board.component';
+import { PartyWinComponent } from './party-win/party-win.component';
+import { PartyLooseComponent } from './party-loose/party-loose.component';
 
 const appRoutes: Routes = [
   {path: '', component: AccueilViewComponent},
   {path: 'waitGame/:idPartie/:idJoueur', component: WaitGameComponent},
-  {path: 'gameBoard/:idPartie/:idJoueur', component: GameBoardComponent}
+  {path: 'gameBoard/:idPartie/:idJoueur', component: GameBoardComponent},
+  {path: 'win', component: PartyWinComponent},
+  {path: 'loose', component: PartyLooseComponent}
 ];
 
 @NgModule({
@@ -21,7 +25,9 @@ const appRoutes: Routes = [
     AppComponent,
     AccueilViewComponent,
     WaitGameComponent,
-    GameBoardComponent
+    GameBoardComponent,
+    PartyWinComponent,
+    PartyLooseComponent
   ],
   imports: [
     BrowserModule,

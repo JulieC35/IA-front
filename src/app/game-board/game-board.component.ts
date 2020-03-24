@@ -1,7 +1,7 @@
 import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 import * as $ from 'jquery';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 type PromiseResolve<T> = (value?: T | PromiseLike<T>) => void;
 type PromiseReject = (error?: any) => void;
 import {GameBoard} from './GameBoard';
@@ -22,7 +22,7 @@ export class GameBoardComponent implements OnInit {
   yourTurn: boolean;
   endOfGame = false;
 
-  constructor(private serveurService: ServeurService, private route: ActivatedRoute) { }
+  constructor(private serveurService: ServeurService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.board = new GameBoard(5);
@@ -30,44 +30,79 @@ export class GameBoardComponent implements OnInit {
     this.addListener();
     // tslint:disable-next-line:triple-equals
     this.yourTurn = (this.route.snapshot.params.idJoueur == 'J1');
-    this.getServeurMessagePromise();
-    /*while (!this.endOfGame) {
-      this.getServeurMessagePromise();
-    }*/
+    this.getServeurMessagePromise().then(
+      data => this.router.navigate(['/' + data]));
   }
 
   getServeurMessagePromise() {
     return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
       // tslint:disable-next-line:only-arrow-functions
       this.serveurService.socket.onmessage = (event) => {
-        const datas = event.data.split(' ');
-        const command = datas[0];
+        const joueur = document.URL.split('gameBoard/')[1].split('/')[1];
+        const datas = event.data;
+        const command = datas.substr(0, 1);
         switch (command) {
-          case '$START':
-            console.log('Début de la partie !')
+          // case $ : command
+          case '$':
+            const message = datas.slice(1);
+            switch (message) {
+              case 'AWAITING':
+                this.yourTurn = false;
+                break;
+              case 'START':
+                console.log('Début de la partie !');
+                break;
+              case 'READY':
+                this.yourTurn = true;
+                break;
+              case 'WIN':
+                console.log('Vous avez gagné !');
+                resolve('win');
+                break;
+              case 'LOOSE':
+                console.log('LOOOOOSER !');
+                resolve('loose');
+                break;
+              case 'END':
+                console.log('Partie terminée !');
+                break;
+            }
             break;
-          case '$AWAITING':
-            this.yourTurn = false;
-            break;
-          case '$READY':
-            this.yourTurn = true;
-            break;
-          case '#OPPONENT':
-            const coord = datas[1];
-            console.log('opponent: ' + coord);
-            let classname = 'active';
-            document.getElementById(coord).classList.add('active');
-            // tslint:disable-next-line:triple-equals
-            if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
-              classname += ' white';
-              document.getElementById(coord).classList.add('white');
-            } else {
-              classname += ' black';
-              document.getElementById(coord).classList.add('black');
+          case '#':
+            if(datas.slice(1).indexOf('OPPONENT') != -1) {
+              const coord = datas.split(' ')[1];
+              console.log('opponent: ' + coord);
+              let classname = 'active';
+              document.getElementById(coord).classList.add('active');
+              // tslint:disable-next-line:triple-equals
+              if (joueur == 'J1') {
+                classname += ' white';
+                document.getElementById(coord).classList.add('white');
+              } else {
+                classname += ' black';
+                document.getElementById(coord).classList.add('black');
+              }
             }
             break;
           case '=':
-            console.log('capturés: ' + datas[1]);
+            const captures = datas.slice(1).split(' ');
+            console.log(captures);
+            if (captures[0] != '') {
+              // tslint:disable-next-line:prefer-for-of
+              for (let i = 0; i < captures.length - 1; i++) {
+                document.getElementById(captures[i]).classList.remove('active');
+                if (joueur == 'J1') {
+                  document.getElementById(captures[i]).classList.remove('black');
+                } else {
+                  document.getElementById(captures[i]).classList.remove('white');
+                }
+              }
+            }
+            console.log('capturés: ' + captures);
+            break;
+          case '!':
+            console.log(datas.slice(1));
+            // document.getElementById(coord).classList.remove('active');
             break;
           default:
             reject(event.data);

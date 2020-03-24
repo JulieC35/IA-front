@@ -290,7 +290,7 @@ export class GameBoard
             for (let j = 0; j < this.squarePerEvenLines; j++)
             {
                 const id = this.columns[indexColumns] + '-' + this.columns[indexColumns + 1] + ','
-                  + this.rows[indexRows] + '-' + this.rows[indexRows + 1];
+                  + this.rows[indexRows+1] + '-' + this.rows[indexRows];
                 htmlStoneLayer += '<div class="boardGame-stone" (click)="stoneClick($event)" id="' + id + '"></div>';
                 indexColumns += 2;
             }
