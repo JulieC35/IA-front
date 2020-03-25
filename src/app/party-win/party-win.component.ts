@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-party-win',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PartyWinComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  accueil() {
+    this.router.navigate(['']);
   }
 
 }
