@@ -73,7 +73,7 @@ export class GameBoardComponent implements OnInit {
             }
             break;
           case '#':
-            if(datas.slice(1).indexOf('OPPONENT') != -1) {
+            if (datas.slice(1).indexOf('OPPONENT') != -1) {
               const coord = datas.split(' ')[1];
               console.log('opponent: ' + coord);
               let classname = 'active';
@@ -100,6 +100,7 @@ export class GameBoardComponent implements OnInit {
                 } else {
                   document.getElementById(captures[i]).classList.remove('white');
                 }
+                this.getStoneClickPromise(document.getElementById(captures[i]));
               }
             }
             console.log('capturés: ' + captures);
@@ -131,7 +132,7 @@ export class GameBoardComponent implements OnInit {
     const stones = document.getElementsByClassName('boardGame-stone');
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < stones.length; i++) {
-      this.getStoneClickPromise(stones[i]).then(
+      this.getStoneClickPromise(stones[i]); /* .then(
         data => {
           console.log('passage: ' + data);
           if (this.yourTurn) {
@@ -145,12 +146,12 @@ export class GameBoardComponent implements OnInit {
           } else {
             console.log('Ce n\'est pas ton tour !');
           }
-        });
+        });*/
     }
   }
 
   getStoneClickPromise(stone) {
-    return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
+    new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
       // tslint:disable-next-line:only-arrow-functions
       stone.onclick = (event) => {
         console.log(event);
@@ -169,7 +170,21 @@ export class GameBoardComponent implements OnInit {
           reject('Pierre déjà placée !');
         }
       };
-    });
+    }).then(
+      data => {
+        console.log('passage: ' + data);
+        if (this.yourTurn) {
+          const classname = data[0];
+          const target = data[1];
+          const coord = data[2];
+          console.log(coord);
+          this.serveurService.sendMessage(coord);
+          $(target).addClass(classname);
+          this.yourTurn = !this.yourTurn;
+        } else {
+          console.log('Ce n\'est pas ton tour !');
+        }
+      });
   }
 
   stoneClick(event: any) {
