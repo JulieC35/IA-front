@@ -80,11 +80,11 @@ export class GameBoardComponent implements OnInit {
               document.getElementById(coord).classList.add('active');
               // tslint:disable-next-line:triple-equals
               if (joueur == 'J1') {
-                classname += ' white';
-                document.getElementById(coord).classList.add('white');
+                classname += ' color1';
+                document.getElementById(coord).classList.add('color1');
               } else {
-                classname += ' black';
-                document.getElementById(coord).classList.add('black');
+                classname += ' color2';
+                document.getElementById(coord).classList.add('color2');
               }
             }
             break;
@@ -96,9 +96,9 @@ export class GameBoardComponent implements OnInit {
               for (let i = 0; i < captures.length - 1; i++) {
                 document.getElementById(captures[i]).classList.remove('active');
                 if (joueur == 'J1') {
-                  document.getElementById(captures[i]).classList.remove('black');
+                  document.getElementById(captures[i]).classList.remove('color2');
                 } else {
-                  document.getElementById(captures[i]).classList.remove('white');
+                  document.getElementById(captures[i]).classList.remove('color1');
                 }
               }
             }
@@ -110,9 +110,9 @@ export class GameBoardComponent implements OnInit {
               console.log(datas.slice(1));
               document.getElementById(coord).classList.remove('active');
               if (joueur == 'J1') {
-                document.getElementById(coord).classList.remove('black');
+                document.getElementById(coord).classList.remove('color2');
               } else {
-                document.getElementById(coord).classList.remove('white');
+                document.getElementById(coord).classList.remove('color1');
               }
               this.yourTurn = true;
             }
@@ -158,9 +158,9 @@ export class GameBoardComponent implements OnInit {
           let classname;
           // tslint:disable-next-line:triple-equals
           if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
-            classname = 'active black';
+            classname = 'active color2';
           } else {
-            classname = 'active white';
+            classname = 'active color1';
           }
           const data = [classname, event.target, event.target.id];
           console.log('Passage au bon endroit');
@@ -179,6 +179,8 @@ export class GameBoardComponent implements OnInit {
       const idJquery = '#' + coord;
       console.log(idJquery);
       $(event.target).addClass('active');
+      const player = Math.round((Math.random()) + 1);
+      $(event.target).addClass('color' + player);
       console.log(event.target);
       console.log(coord);
     }
