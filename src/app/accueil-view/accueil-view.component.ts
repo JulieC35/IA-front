@@ -30,6 +30,14 @@ export class AccueilViewComponent implements OnInit {
       data => this.router.navigate(['waitGame/' + this.id + '/J1']));
   }
 
+  ia() {
+    this.id = this.randomIntFromInterval(100000, 999999);
+    const urlH = this.url + this.id;
+    this.serveurService = this.serveurService.init(urlH);
+    this.getMovePromise().then(
+      data => this.router.navigate(['gameBoard/ia' + this.id + '/J1']));
+  }
+
   getMovePromise() {
     return new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
       // tslint:disable-next-line:only-arrow-functions
