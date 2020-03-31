@@ -32,7 +32,8 @@ export class AccueilViewComponent implements OnInit {
 
   ia() {
     this.id = this.randomIntFromInterval(100000, 999999);
-    const urlH = this.url + this.id;
+    const urlH = this.url + 'ia' + this.id;
+    console.log(urlH);
     this.serveurService = this.serveurService.init(urlH);
     this.getMovePromise().then(
       data => this.router.navigate(['gameBoard/ia' + this.id + '/J1']));
