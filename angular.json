@@ -63,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "IA-front:build"
+            "browserTarget": "IA-front:build",
+            "port": 4200
           },
           "configurations": {
             "production": {
