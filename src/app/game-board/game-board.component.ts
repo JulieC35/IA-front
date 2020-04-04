@@ -152,15 +152,16 @@ export class GameBoardComponent implements OnInit {
           const data = [classname, event.target, event.target.id];
           resolve(data);
         } else {
-          reject('Pierre déjà placée !');
+          const data = ['Pierre déjà placée !', event.target, event.target.id]
+          reject(data);
         }
       };
     }).then(
       data => {
+        const classname = data[0];
+        const target = data[1];
+        const coord = data[2];
         if (this.yourTurn) {
-          const classname = data[0];
-          const target = data[1];
-          const coord = data[2];
           console.log(coord);
           this.serveurService.sendMessage(coord);
           $(target).addClass(classname);
@@ -168,14 +169,19 @@ export class GameBoardComponent implements OnInit {
         } else {
           console.log('Ce n\'est pas ton tour !');
           document.getElementById('message').innerText = 'Ce n\'est pas ton tour.';
+          this.getStoneClickPromise(document.getElementById(coord));
         }
       })
       .catch(
         data => {
+          const message = data[0];
+          const coord = data[2];
           if (this.yourTurn) {
-            document.getElementById('message').innerText = data;
+            document.getElementById('message').innerText = message;
+            this.getStoneClickPromise(document.getElementById(coord));
           } else {
             document.getElementById('message').innerText = 'Ce n\'est pas ton tour.';
+            this.getStoneClickPromise(document.getElementById(coord));
           }
         }
       );

@@ -13,7 +13,8 @@ export class AccueilViewComponent implements OnInit {
 
   @Input() idPartie: number;
   private id: number;
-  private url = 'ws://localhost:8989/room/';
+  // private url = 'ws://localhost:8989/room/';
+  private url = 'ws://88.121.60.248:8889/room/';
 
   constructor(private serveurService: ServeurService, private router: Router) {
   }
