@@ -27,6 +27,11 @@ export class ServeurService {
     return ServeurService.instance;
   }
 
+  close() {
+    this.socket.close();
+    ServeurService.instance = null;
+  }
+
   waitOpen(callback) {
     ServeurService.instance.onopen = () => {
       console.log('Server and client are connecting together !');

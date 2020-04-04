@@ -15,6 +15,11 @@ body
   --coordinatesColor : #c6c9c7;
 }
 
+h4
+{
+  color: var(--boardColor1);
+}
+
 .boardGame-container
 {
   display: flex;

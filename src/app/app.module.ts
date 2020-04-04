@@ -13,11 +13,12 @@ import { PartyWinComponent } from './party-win/party-win.component';
 import { PartyLooseComponent } from './party-loose/party-loose.component';
 
 const appRoutes: Routes = [
-  {path: '', component: AccueilViewComponent},
+  {path: 'home', component: AccueilViewComponent},
   {path: 'waitGame/:idPartie/:idJoueur', component: WaitGameComponent},
   {path: 'gameBoard/:idPartie/:idJoueur', component: GameBoardComponent},
   {path: 'win', component: PartyWinComponent},
-  {path: 'loose', component: PartyLooseComponent}
+  {path: 'loose', component: PartyLooseComponent},
+  {path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({

@@ -132,21 +132,7 @@ export class GameBoardComponent implements OnInit {
     const stones = document.getElementsByClassName('boardGame-stone');
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < stones.length; i++) {
-      this.getStoneClickPromise(stones[i]); /* .then(
-        data => {
-          console.log('passage: ' + data);
-          if (this.yourTurn) {
-            const classname = data[0];
-            const target = data[1];
-            const coord = data[2];
-            console.log(coord);
-            this.serveurService.sendMessage(coord);
-            $(target).addClass(classname);
-            this.yourTurn = !this.yourTurn;
-          } else {
-            console.log('Ce n\'est pas ton tour !');
-          }
-        });*/
+      this.getStoneClickPromise(stones[i]);
     }
   }
 
@@ -164,7 +150,6 @@ export class GameBoardComponent implements OnInit {
             classname = 'active color1';
           }
           const data = [classname, event.target, event.target.id];
-          console.log('Passage au bon endroit');
           resolve(data);
         } else {
           reject('Pierre déjà placée !');
@@ -172,7 +157,6 @@ export class GameBoardComponent implements OnInit {
       };
     }).then(
       data => {
-        console.log('passage: ' + data);
         if (this.yourTurn) {
           const classname = data[0];
           const target = data[1];
@@ -183,8 +167,18 @@ export class GameBoardComponent implements OnInit {
           this.yourTurn = !this.yourTurn;
         } else {
           console.log('Ce n\'est pas ton tour !');
+          document.getElementById('message').innerText = 'Ce n\'est pas ton tour.';
         }
-      });
+      })
+      .catch(
+        data => {
+          if (this.yourTurn) {
+            document.getElementById('message').innerText = data;
+          } else {
+            document.getElementById('message').innerText = 'Ce n\'est pas ton tour.';
+          }
+        }
+      );
   }
 
   stoneClick(event: any) {

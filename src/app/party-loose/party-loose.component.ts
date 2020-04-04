@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {ServeurService} from '../services/serveur.service';
 
 @Component({
   selector: 'app-party-loose',
@@ -8,13 +9,14 @@ import {Router} from "@angular/router";
 })
 export class PartyLooseComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private serveurService: ServeurService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   accueil() {
-    this.router.navigate(['']);
+    this.serveurService.close();
+    this.router.navigate(['home']);
   }
 
 }
