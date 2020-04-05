@@ -39,7 +39,7 @@ h4
 
 .board-coord-bar
 {
-  margin-right: 6px;
+  position: relative;
   padding: 22px 0;
   box-sizing: border-box;
   height: 100%;
@@ -48,6 +48,33 @@ h4
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background: var(--stone1Color);
+}
+.board-coord-bar::before, .board-coord-bar::after
+{
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+
+  border-left: 30px solid white;
+}
+.board-coord-bar::after
+{
+  top: auto;
+  bottom: -30px;
+}
+.board-coord-bar:last-child::before, .board-coord-bar:last-child::after
+{
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+
+  border-right: 30px solid white;
+  border-left: 0;
 }
 .board-coord-bar.horizontal
 {
@@ -59,20 +86,39 @@ h4
   width: 600px;
   height: 30px;
   padding: 0 22px;
+  background: var(--stone2Color);
 }
-.board-coord-bar:last-child
+.board-coord-bar.horizontal::before, .board-coord-bar.horizontal::after
 {
-  margin-right: 0;
-  margin-left: 6px;
+  top: 0;
+  left: -30px;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+
+  border-top: 30px solid black;
+}
+.board-coord-bar.horizontal::after
+{
+  left: auto;
+  bottom: auto;
+  right: -30px;
 }
 .board-coord-bar.horizontal:last-child
 {
   bottom: -30px;
   top: auto;
 }
+.board-coord-bar.horizontal:last-child::before, .board-coord-bar.horizontal:last-child::after
+{
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+
+  border-bottom: 30px solid black;
+  border-top: 0;
+}
 .board-coord
 {
-  color: var(--coordinatesColor);
+  color: var(--stone2Color);
 }
 .board-coord-bar.horizontal .board-coord
 {
@@ -90,7 +136,7 @@ h4
   top: 0;
   left: 0;
   display: flex;
-  padding: 25px 20px 20px 30px;
+  padding: 22px 20px 22px 25px;
   box-sizing: border-box;
   z-index: 1;
 }
