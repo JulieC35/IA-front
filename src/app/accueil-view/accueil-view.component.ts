@@ -67,4 +67,8 @@ export class AccueilViewComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  regle() {
+    this.router.navigate(['rules'])
+  }
+
 }
