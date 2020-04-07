@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 import {Router} from '@angular/router';
+import { environment } from '../../environments/environment';
 type PromiseResolve<T> = (value?: T | PromiseLike<T>) => void;
 type PromiseReject = (error?: any) => void;
 
@@ -13,8 +14,7 @@ export class AccueilViewComponent implements OnInit {
 
   @Input() idPartie: number;
   private id: number;
-  // private url = 'ws://localhost:8989/room/';
-  private url = 'ws://88.121.60.248:8889/room/';
+  private url = environment.gameServerUrl;
 
   constructor(private serveurService: ServeurService, private router: Router) {
   }
