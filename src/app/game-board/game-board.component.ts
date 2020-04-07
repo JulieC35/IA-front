@@ -50,6 +50,7 @@ export class GameBoardComponent implements OnInit {
       this.serveurService.socket.onmessage = (event) => {
         const joueur = document.URL.split('gameBoard/')[1].split('/')[1];
         const datas = event.data;
+        console.log(datas);
         const command = datas.substr(0, 1);
         switch (command) {
           // case $ : command
@@ -172,7 +173,7 @@ export class GameBoardComponent implements OnInit {
         const classname = data[0];
         const target = data[1];
         const coord = data[2];
-        if (this.yourTurn) {
+        if (this.yourTurn && this.firstWaitAIIsDone) {
           console.log(coord);
           this.serveurService.sendMessage(coord);
           $(target).addClass(classname);
