@@ -19,8 +19,8 @@ const appRoutes: Routes = [
   {path: 'gameBoard/:idPartie/:idJoueur', component: GameBoardComponent},
   {path: 'win', component: PartyWinComponent},
   {path: 'loose', component: PartyLooseComponent},
-  {path: '**', redirectTo: '', pathMatch: 'full'},
   {path: 'rules', component: RulesViewComponent},
+  {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
 @NgModule({

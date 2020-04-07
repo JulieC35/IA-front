@@ -68,7 +68,8 @@ export class AccueilViewComponent implements OnInit {
   }
 
   regle() {
-    this.router.navigate(['rules'])
+    console.log("test");
+    this.router.navigate(['rules']);
   }
 
 }
