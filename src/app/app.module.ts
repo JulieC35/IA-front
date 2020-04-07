@@ -5,12 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccueilViewComponent } from './accueil-view/accueil-view.component';
 import { ServeurService } from './services/serveur.service';
-import {FormsModule} from '@angular/forms';
-import {RouterModule, Routes} from '@angular/router';
+import { FormsModule} from '@angular/forms';
+import { RouterModule, Routes} from '@angular/router';
 import { WaitGameComponent } from './wait-game/wait-game.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { PartyWinComponent } from './party-win/party-win.component';
 import { PartyLooseComponent } from './party-loose/party-loose.component';
+import { RulesViewComponent } from './rules-view/rules-view.component';
 
 const appRoutes: Routes = [
   {path: '', component: AccueilViewComponent},
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   {path: 'gameBoard/:idPartie/:idJoueur', component: GameBoardComponent},
   {path: 'win', component: PartyWinComponent},
   {path: 'loose', component: PartyLooseComponent},
-  {path: '**', redirectTo: '', pathMatch: 'full'}
+  {path: '**', redirectTo: '', pathMatch: 'full'},
+  {path: 'rules', component: RulesViewComponent},
 ];
 
 @NgModule({
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     WaitGameComponent,
     GameBoardComponent,
     PartyWinComponent,
-    PartyLooseComponent
+    PartyLooseComponent,
+    RulesViewComponent
   ],
   imports: [
     BrowserModule,

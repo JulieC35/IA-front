@@ -1,13 +1,26 @@
-<div id="selection">
-  <div id="lancerPartie">
-    <h2>Nouvelle partie</h2>
-    <button (click)="human()">1 vs 1</button>
-    <button (click)="ia()">1 vs IA</button>
+<div class="accueil">
+
+  <div class="accueil-bloc">
+    <h2>Règles du jeu</h2>
+    <div class="accueil-bloc-buttons">
+      <button (click)="regle()">Voir les règles</button>
+    </div>
   </div>
-  <div id="rejoindrePartie">
+
+  <div class="accueil-bloc" id="lancerPartie">
+    <h2>Nouvelle partie</h2>
+    <div class="accueil-bloc-buttons">
+      <button (click)="human()">1 vs 1</button>
+      <button (click)="ia()">1 vs IA</button>
+    </div>
+  </div>
+
+  <div class="accueil-bloc" id="rejoindrePartie">
     <h2>Rejoindre une partie existante</h2>
-    <input type="number" [(ngModel)]="idPartie" min="1000" max="9999">
     <!--<label>{{idPartie}}</label>-->
-    <button (click)="getPartie()">Rejoindre</button>
+    <div class="accueil-bloc-buttons">
+      <input type="number" [(ngModel)]="idPartie" min="1000" max="9999">
+      <button (click)="getPartie()">Rejoindre</button>
+    </div>
   </div>
 </div>

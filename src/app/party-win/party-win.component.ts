@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {ServeurService} from "../services/serveur.service";
+import {ServeurService} from '../services/serveur.service';
 
 @Component({
   selector: 'app-party-win',

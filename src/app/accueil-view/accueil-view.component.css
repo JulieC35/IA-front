@@ -1,4 +1,41 @@
-#lancerPartie, #rejoindrePartie{
+
+.accueil
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.accueil-bloc
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.accueil-bloc-buttons
+{
+  display: flex;
+  align-items: center;
+}
+.accueil-bloc-buttons button
+{
+  margin: 0 10px;
+}
+
+.accueil-bloc-buttons input
+{
+  width: 150px;
+  height: 40px;
+  border: 1px solid #338033;
+  padding: 10px;
+}
+
+/*
+#lancerPartie, #rejoindrePartie
+{
   margin: 40px;
   text-align: center;
 }
@@ -7,5 +44,5 @@
 	width: 140px;
 	height: 50px;
 	border: 1px solid #338033;
-
 }
+*/
