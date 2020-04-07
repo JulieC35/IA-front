@@ -3,47 +3,49 @@
 
     <div class="rules-view-title">Règles du jeu</div>
 
-    <div class="rules-view-subtitle">Nombre de joueurs</div>
+    <div class="rules-view-subtitle">Principe du jeu</div>
     <div class="rules-view-text">
-      2 joueurs (associés à 2 couleurs de pions)
-    </div>
+      2 joueurs s'affronte. Chacun d'eux possède des pions de couleurs différentes (noir ou blanc). Tour à tour les joueurs vont disposer des pions sur le plateau.<br><br>
+      Le plateau est composé de carrés et de losanges coupés en leur milieu. On peut poser les pions sur les intersections. <br><br>
 
-    <div class="rules-view-subtitle">But du jeu</div>
-    <div class="rules-view-text">
-      Chaque joueur possède des pions de couleurs différentes (noir ou blanc).<br><br>
+      <div class="rules-view-images">
+        <img src="../../assets/rules/images/empty.png" alt="Board image" class="rules-view-image" />
+        <img src="../../assets/rules/images/full.png" alt="Board image" class="rules-view-image" />
+      </div>
 
-      Le but du jeu pour chaque joueur est de réussir à faire une ligne ininterrompue de pions entre les 2 côtés du plateau. Le joueur blanc doit faire une ligne entre le côté gauche et le côté droit, tandis que le joueur noir doit faire cette ligne entre le haut et le bas du plateau.<br><br>
-
-      Note : les coins appartiennent aux 2 côtés qui les touchent..
+      Le but du jeu est de réussir à réaliser une ligne ininterrompue de pions entre 2 côtés du plateau. Le joueur blanc doit donc faire une ligne horizontale, tandis que le joueur noir doit faire une ligne verticale.<br><br>
     </div>
 
     <div class="rules-view-images">
-      <img src="../../assets/images/rules/board.PNG" alt="Board image" class="rules-view-image" />
-      <img src="../../assets/images/rules/board.PNG" alt="Board image" class="rules-view-image" />
+      <img src="../../assets/rules/gifs/win.gif" alt="Board image" class="rules-view-image" />
     </div>
 
-    <div class="rules-view-subtitle">Règles de placement des pions</div>
     <div class="rules-view-text">
-      Le plateau est composé de carrés et de losanges. Chaque carré est coupé en son milieu par un losange. On peut poser les pions sur à peu près n’importe quelle intersection du plateau. Il s’agit soit des coins des carrés, soit de leur centre. <br><br>
 
       <i>Attention</i>, on ne peut pas poser de pion au centre d’un carré si l’un de ses coins est déjà occupé par un autre pion !
+
+      <div class="rules-view-images">
+        <img src="../../assets/rules/gifs/forbidden.gif" alt="Board image" class="rules-view-image" />
+        <img src="../../assets/rules/gifs/allowed.gif" alt="Board image" class="rules-view-image" />
+      </div>
+
     </div>
 
-    <div class="rules-view-subtitle">Règles de capture</div>
+    <div class="rules-view-subtitle">Capture</div>
     <div class="rules-view-text">
-      Si le centre d’un carré est inoccupé et qu’un joueur place un pion sur le dernier coin libre du carré, de façon à ce que la configuration soit telle que le montre la figure suivante, alors les deux pions adverses sont capturés.
+      Si le centre d’un carré est inoccupé et qu’un joueur place un pion sur le dernier coin libre du carré alors qu'il à un pion sur le coté opposé, alors les deux pions adverses sont capturés (retirés du jeu).
     </div>
 
     <div class="rules-view-images">
-      <img src="../../assets/images/rules/board.PNG" alt="Board image" class="rules-view-image" />
+      <img src="../../assets/rules/gifs/capture.gif" alt="Board image" class="rules-view-image" />
     </div>
 
     <div class="rules-view-text">
-      Il est possible de capture 4 pions d’un coup si le pion placé ferme de carré dans la même configuration :
+      Il est possible donc possible de capturé jusqu'à 4 pions d’un coup !
     </div>
 
-    <div class="rules-view-images">
-      <img src="../../assets/images/rules/board.PNG" alt="Board image" class="rules-view-image" />
-    </div>
   </div>
+
+  <button (click)="accueil()">Retourner à l'accueil</button>
+
 </div>
