@@ -61,11 +61,11 @@ export class GameBoardComponent implements OnInit {
                 break;
               case 'WIN':
                 console.log('Vous avez gagné !');
-                resolve('win');
+                //resolve('win');
                 break;
               case 'LOOSE':
                 console.log('LOOOOOSER !');
-                resolve('loose');
+                //resolve('loose');
                 break;
               case 'END':
                 console.log('Partie terminée !');

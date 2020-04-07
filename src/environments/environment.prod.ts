@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  // MUST BE CHANGED FOR PRODUCTION
+  gameServerUrl: 'ws://localhost:8889/room/'
 };
