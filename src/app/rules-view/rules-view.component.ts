@@ -14,4 +14,8 @@ export class RulesViewComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  accueil() {
+    this.router.navigate(['home']);
+  }
+
 }

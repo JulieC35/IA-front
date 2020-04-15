@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {ServeurService} from '../services/serveur.service';
 import * as $ from 'jquery';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -22,6 +22,8 @@ export class GameBoardComponent implements OnInit {
 
   yourTurn: boolean;
   endOfGame = false;
+  firstWaitAIIsDone = false;
+  gameFinished = false;
 
   constructor(private serveurService: ServeurService, private route: ActivatedRoute, private router: Router) { }
 
@@ -29,10 +31,17 @@ export class GameBoardComponent implements OnInit {
     this.board = new GameBoard(5);
     this.board.generateBoardGame();
     this.addListener();
-    // tslint:disable-next-line:triple-equals
-    this.yourTurn = (this.route.snapshot.params.idJoueur == 'J1');
+    if (!this.serveurService.url.split('/')[4].includes('ia')) {
+      this.firstWaitAIIsDone = true;
+    }
+    this.yourTurn = (this.route.snapshot.params.idJoueur === 'J1');
     this.getServeurMessagePromise().then(
       data => this.router.navigate(['/' + data]));
+  }
+
+  accueil() {
+    this.serveurService.close();
+    this.router.navigate(['']);
   }
 
   getServeurMessagePromise() {
@@ -41,6 +50,7 @@ export class GameBoardComponent implements OnInit {
       this.serveurService.socket.onmessage = (event) => {
         const joueur = document.URL.split('gameBoard/')[1].split('/')[1];
         const datas = event.data;
+        console.log(datas);
         const command = datas.substr(0, 1);
         switch (command) {
           // case $ : command
@@ -49,10 +59,11 @@ export class GameBoardComponent implements OnInit {
             switch (message) {
               case 'AWAITING':
                 document.getElementById('message').innerText = '';
-                this.yourTurn = false;
                 break;
               case 'START':
-                console.log('Début de la partie !');
+                if (!this.firstWaitAIIsDone) {
+                  this.firstWaitAIIsDone = true;
+                }
                 document.getElementById('message').innerText = 'Début de la partie !';
                 break;
               case 'READY':
@@ -60,12 +71,14 @@ export class GameBoardComponent implements OnInit {
                 document.getElementById('message').innerText = '';
                 break;
               case 'WIN':
-                console.log('Vous avez gagné !');
-                //resolve('win');
+                document.getElementById('message').innerText = 'Vous avez gagné !';
+                this.gameFinished = true;
+                // resolve('win');
                 break;
               case 'LOOSE':
-                console.log('LOOOOOSER !');
-                //resolve('loose');
+                document.getElementById('message').innerText = 'Vous avez perdu !';
+                this.gameFinished = true;
+                // resolve('loose');
                 break;
               case 'END':
                 console.log('Partie terminée !');
@@ -73,13 +86,12 @@ export class GameBoardComponent implements OnInit {
             }
             break;
           case '#':
-            if (datas.slice(1).indexOf('OPPONENT') != -1) {
+            if (datas.slice(1).indexOf('OPPONENT') !== -1) {
               const coord = datas.split(' ')[1];
               console.log('opponent: ' + coord);
               let classname = 'active';
               document.getElementById(coord).classList.add('active');
-              // tslint:disable-next-line:triple-equals
-              if (joueur == 'J1') {
+              if (joueur === 'J1') {
                 classname += ' color1';
                 document.getElementById(coord).classList.add('color1');
               } else {
@@ -91,11 +103,11 @@ export class GameBoardComponent implements OnInit {
           case '=':
             const captures = datas.slice(1).split(' ');
             console.log(captures);
-            if (captures[0] != '') {
+            if (captures[0] !== '') {
               // tslint:disable-next-line:prefer-for-of
               for (let i = 0; i < captures.length - 1; i++) {
                 document.getElementById(captures[i]).classList.remove('active');
-                if (joueur == 'J1') {
+                if (joueur === 'J1') {
                   document.getElementById(captures[i]).classList.remove('color2');
                 } else {
                   document.getElementById(captures[i]).classList.remove('color1');
@@ -106,11 +118,11 @@ export class GameBoardComponent implements OnInit {
             console.log('capturés: ' + captures);
             break;
           case '!':
-            if (datas.slice(1).indexOf('Position not allowed') != -1) {
+            if (datas.slice(1).indexOf('Position not allowed') !== -1) {
               const coord = datas.slice(1).split(':')[1];
               console.log(datas.slice(1));
               document.getElementById(coord).classList.remove('active');
-              if (joueur == 'J1') {
+              if (joueur === 'J1') {
                 document.getElementById(coord).classList.remove('color2');
               } else {
                 document.getElementById(coord).classList.remove('color1');
@@ -152,7 +164,7 @@ export class GameBoardComponent implements OnInit {
           const data = [classname, event.target, event.target.id];
           resolve(data);
         } else {
-          const data = ['Pierre déjà placée !', event.target, event.target.id]
+          const data = ['Pierre déjà placée !', event.target, event.target.id];
           reject(data);
         }
       };
@@ -161,7 +173,7 @@ export class GameBoardComponent implements OnInit {
         const classname = data[0];
         const target = data[1];
         const coord = data[2];
-        if (this.yourTurn) {
+        if (this.yourTurn && this.firstWaitAIIsDone) {
           console.log(coord);
           this.serveurService.sendMessage(coord);
           $(target).addClass(classname);
