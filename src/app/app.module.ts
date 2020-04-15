@@ -13,16 +13,6 @@ import { PartyWinComponent } from './party-win/party-win.component';
 import { PartyLooseComponent } from './party-loose/party-loose.component';
 import { RulesViewComponent } from './rules-view/rules-view.component';
 
-const appRoutes: Routes = [
-  {path: '', component: AccueilViewComponent},
-  {path: 'waitGame/:idPartie/:idJoueur', component: WaitGameComponent},
-  {path: 'gameBoard/:idPartie/:idJoueur', component: GameBoardComponent},
-  {path: 'win', component: PartyWinComponent},
-  {path: 'loose', component: PartyLooseComponent},
-  {path: 'rules', component: RulesViewComponent},
-  {path: '**', redirectTo: '', pathMatch: 'full'}
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,9 +25,8 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    AppRoutingModule
   ],
   providers: [
     ServeurService

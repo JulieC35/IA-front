@@ -49,3 +49,8 @@
         max-width: 250px;
       }
 
+button {
+  display: block;
+  text-align: center;
+}
+
