@@ -107,11 +107,8 @@ export class GameBoardComponent implements OnInit {
               // tslint:disable-next-line:prefer-for-of
               for (let i = 0; i < captures.length - 1; i++) {
                 document.getElementById(captures[i]).classList.remove('active');
-                if (joueur === 'J1') {
-                  document.getElementById(captures[i]).classList.remove('color2');
-                } else {
-                  document.getElementById(captures[i]).classList.remove('color1');
-                }
+                document.getElementById(captures[i]).classList.remove('color2');
+                document.getElementById(captures[i]).classList.remove('color1');
                 this.getStoneClickPromise(document.getElementById(captures[i]));
               }
             }
@@ -152,11 +149,12 @@ export class GameBoardComponent implements OnInit {
     new Promise((resolve: PromiseResolve<any>, reject: PromiseReject): void => {
       // tslint:disable-next-line:only-arrow-functions
       stone.onclick = (event) => {
-        console.log(event);
+        console.log(event.target.getAttribute('class'));
         if (!event.target.getAttribute('class').includes('active')) {
           let classname;
           // tslint:disable-next-line:triple-equals
-          if (document.URL.split('gameBoard/')[1].split('/')[1] == 'J1') {
+          const joueur = document.URL.split('gameBoard/')[1].split('/')[1];
+          if (joueur == 'J1') {
             classname = 'active color2';
           } else {
             classname = 'active color1';
